@@ -1,0 +1,14 @@
+[Unit]
+Description=Radio Monitor — RTL-SDR keyword alerting
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/radio-monitor
+ExecStart=/opt/radio-monitor/venv/bin/python -m radio_monitor -c /opt/radio-monitor/config.yaml
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

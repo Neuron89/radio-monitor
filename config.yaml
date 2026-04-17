@@ -1,0 +1,70 @@
+# Radio Monitor Configuration
+
+radio:
+  # Frequency in Hz — find with HackRF/SDR++ scanning 457-462 MHz
+  frequency: 461037500
+  modulation: fm
+  squelch: 50
+  gain: 40
+  sample_rate: 12500
+  output_rate: 16000
+  # rtl_fm device index (0 = first RTL-SDR)
+  device_index: 0
+
+whisper:
+  # Model size: tiny, base, small, medium, large-v3
+  # base = fast + decent accuracy, small = better accuracy, still real-time on CPU
+  model: base
+  language: en
+  # Compute type: int8 (fastest CPU), float16 (GPU), float32 (CPU precise)
+  compute_type: int8
+
+keywords:
+  - Hunter
+  - Nester
+  - IT
+  - tech
+  - help
+
+# Fuzzy match threshold (0-100). 80 = fairly strict, 60 = more lenient.
+# Helps catch "Gunter" -> "Hunter", "Hester" -> "Nester", etc.
+match_threshold: 70
+
+audio:
+  # Seconds of audio per transcription chunk
+  chunk_duration: 4
+  # RMS energy threshold for voice detection (0.0 - 1.0)
+  # Lower = more sensitive, higher = less false triggers from static
+  vad_threshold: 0.02
+  # Seconds of silence before a voice segment is considered complete
+  silence_timeout: 1.5
+  # Max buffer duration in seconds (force-process even if still talking)
+  max_buffer: 15
+
+alerts:
+  ntfy:
+    enabled: true
+    # Use ntfy.sh (public) or your own self-hosted instance
+    server: https://ntfy.sh
+    topic: radio-monitor-CHANGEME
+    priority: urgent
+    # Tags shown in notification
+    tags: loudspeaker,warning
+  sound:
+    enabled: false
+    # Path to WAV file to play on alert (requires aplay/paplay)
+    file: /opt/radio-monitor/alert.wav
+  webhook:
+    enabled: false
+    url: ""
+
+web:
+  enabled: true
+  host: 0.0.0.0
+  port: 5555
+
+logging:
+  # Keep a rolling transcript log
+  transcript_file: /var/log/radio-monitor/transcript.log
+  # Max log size before rotation (MB)
+  max_size_mb: 50
