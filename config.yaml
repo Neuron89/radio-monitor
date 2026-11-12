@@ -1,8 +1,9 @@
 # Radio Monitor Configuration
 
 radio:
-  # Frequency in Hz — find with HackRF/SDR++ scanning 457-462 MHz
-  frequency: 461037500
+  # Frequency in Hz. Example value only (462.5625 MHz); set this to a channel
+  # you are licensed or otherwise authorised to monitor.
+  frequency: 462562500
   modulation: fm
   squelch: 50
   gain: 40
@@ -19,15 +20,16 @@ whisper:
   # Compute type: int8 (fastest CPU), float16 (GPU), float32 (CPU precise)
   compute_type: int8
 
+# Words or names to alert on. Exact matching is a case-insensitive substring
+# test, so avoid very short keywords ("it" would match "with").
 keywords:
-  - Hunter
-  - Nester
-  - IT
-  - tech
+  - Morgan
+  - Alex
+  - maintenance
   - help
 
 # Fuzzy match threshold (0-100). 80 = fairly strict, 60 = more lenient.
-# Helps catch "Gunter" -> "Hunter", "Hester" -> "Nester", etc.
+# Helps catch near-misses such as "Morgen" -> "Morgan".
 match_threshold: 70
 
 audio:
